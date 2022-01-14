@@ -157,7 +157,14 @@ public class salmonTalkerLite extends Activity implements
         } else {
             setUiState(iSTATE_MIC);
             try {
-                Recognizer rec = new Recognizer(model, 16000.0f);
+               // Recognizer rec = new Recognizer(model, 16000.0f);
+                //These are the only words passed by the speech engine
+                Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook tuna hundred thousand ten oh zero one two three four five six seven eight nine\"]");
+                 // Recognizer rec = new Recognizer(model, 16000.f, "[\"one zero zero zero one\", " +
+                   //     "\"oh zero one two three four five six seven eight nine\", \"[unk]\"]");
+
+
+
                 speechService = new SpeechService(rec, 16000.0f);
                 speechService.startListening(this);
             } catch (IOException e) {
