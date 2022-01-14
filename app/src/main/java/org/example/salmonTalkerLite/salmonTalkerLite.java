@@ -159,7 +159,7 @@ public class salmonTalkerLite extends Activity implements
             try {
                // Recognizer rec = new Recognizer(model, 16000.0f);
                 //These are the only words passed by the speech engine
-                Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook tuna hundred thousand ten oh zero one two three four five six seven eight nine\"]");
+                Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook hundred thousand ten oh zero one two three four five six seven eight nine\"]");
                  // Recognizer rec = new Recognizer(model, 16000.f, "[\"one zero zero zero one\", " +
                    //     "\"oh zero one two three four five six seven eight nine\", \"[unk]\"]");
 
