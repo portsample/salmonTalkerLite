@@ -73,6 +73,24 @@ public class salmonTalkerLite extends Activity implements
     ToggleButton tbtnStartStop;
     Button btnReadMe;
 
+    //txt2int stuff start
+
+    boolean bIsValidInput = true;
+    long lResult = 0;
+    long lFinalResult = 0;
+    List<String> szlAllowedStrings = Arrays.asList
+            (
+                    "zero","one","two","three","four","five","six","seven",
+                    "eight","nine","ten","eleven","twelve","thirteen","fourteen",
+                    "fifteen","sixteen","seventeen","eighteen","nineteen","twenty",
+                    "thirty","forty","fifty","sixty","seventy","eighty","ninety",
+                    "hundred","thousand","million","billion","trillion"
+            );
+
+    String szInput, szFinalResult;//="seven hundred and eighty nine";
+
+    //txt2int stuff end...
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -159,11 +177,9 @@ public class salmonTalkerLite extends Activity implements
             try {
                // Recognizer rec = new Recognizer(model, 16000.0f);
                 //These are the only words passed by the speech engine
-                Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook hundred thousand ten oh zero one two three four five six seven eight nine\"]");
+                Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook salmon oh zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion\",\"[unk]\"]");
                  // Recognizer rec = new Recognizer(model, 16000.f, "[\"one zero zero zero one\", " +
                    //     "\"oh zero one two three four five six seven eight nine\", \"[unk]\"]");
-
-
 
                 speechService = new SpeechService(rec, 16000.0f);
                 speechService.startListening(this);
@@ -190,19 +206,169 @@ public class salmonTalkerLite extends Activity implements
         }
         parseWords();
     }
-/********************************* parseWords() *******************************************
+
+/************************************************************************************************
+ *     This is txt2int code to translate numbers ("one hundred and four") into digits ("104").
+ ************************************************************************************************/
+    public void parseNumbers(){
+        if(szInput != null && szInput.length()> 0)
+        {
+            szInput = szInput.replaceAll("-", " ");
+            szInput = szInput.replaceAll("OH", "ZERO");
+            szInput = szInput.toLowerCase().replaceAll(" and", " ");
+            String[] splittedParts = szInput.trim().split("\\s+");
+
+            for(String str : splittedParts)
+            {
+                if(!szlAllowedStrings.contains(str))
+                {
+                    bIsValidInput = false;
+                    Toast.makeText(this, "Invalid word found:" + str, Toast.LENGTH_LONG).show();
+                    //System.out.println("Invalid word found : "+str);
+                    //return;
+                    break;
+                }
+            }
+            if(bIsValidInput)
+            {
+                for(String str : splittedParts)
+                {
+                    if(str.equalsIgnoreCase("zero")) {
+                        lResult += 0;
+                    }
+                    else if(str.equalsIgnoreCase("one")) {
+                        lResult += 1;
+                    }
+                    else if(str.equalsIgnoreCase("two")) {
+                        lResult += 2;
+                    }
+                    else if(str.equalsIgnoreCase("three")) {
+                        lResult += 3;
+                    }
+                    else if(str.equalsIgnoreCase("four")) {
+                        lResult += 4;
+                    }
+                    else if(str.equalsIgnoreCase("five")) {
+                        lResult += 5;
+                    }
+                    else if(str.equalsIgnoreCase("six")) {
+                        lResult += 6;
+                    }
+                    else if(str.equalsIgnoreCase("seven")) {
+                        lResult += 7;
+                    }
+                    else if(str.equalsIgnoreCase("eight")) {
+                        lResult += 8;
+                    }
+                    else if(str.equalsIgnoreCase("nine")) {
+                        lResult += 9;
+                    }
+                    else if(str.equalsIgnoreCase("ten")) {
+                        lResult += 10;
+                    }
+                    else if(str.equalsIgnoreCase("eleven")) {
+                        lResult += 11;
+                    }
+                    else if(str.equalsIgnoreCase("twelve")) {
+                        lResult += 12;
+                    }
+                    else if(str.equalsIgnoreCase("thirteen")) {
+                        lResult += 13;
+                    }
+                    else if(str.equalsIgnoreCase("fourteen")) {
+                        lResult += 14;
+                    }
+                    else if(str.equalsIgnoreCase("fifteen")) {
+                        lResult += 15;
+                    }
+                    else if(str.equalsIgnoreCase("sixteen")) {
+                        lResult += 16;
+                    }
+                    else if(str.equalsIgnoreCase("seventeen")) {
+                        lResult += 17;
+                    }
+                    else if(str.equalsIgnoreCase("eighteen")) {
+                        lResult += 18;
+                    }
+                    else if(str.equalsIgnoreCase("nineteen")) {
+                        lResult += 19;
+                    }
+                    else if(str.equalsIgnoreCase("twenty")) {
+                        lResult += 20;
+                    }
+                    else if(str.equalsIgnoreCase("thirty")) {
+                        lResult += 30;
+                    }
+                    else if(str.equalsIgnoreCase("forty")) {
+                        lResult += 40;
+                    }
+                    else if(str.equalsIgnoreCase("fifty")) {
+                        lResult += 50;
+                    }
+                    else if(str.equalsIgnoreCase("sixty")) {
+                        lResult += 60;
+                    }
+                    else if(str.equalsIgnoreCase("seventy")) {
+                        lResult += 70;
+                    }
+                    else if(str.equalsIgnoreCase("eighty")) {
+                        lResult += 80;
+                    }
+                    else if(str.equalsIgnoreCase("ninety")) {
+                        lResult += 90;
+                    }
+                    else if(str.equalsIgnoreCase("hundred")) {
+                        lResult *= 100;
+                    }
+                    else if(str.equalsIgnoreCase("thousand")) {
+                        lResult *= 1000;
+                        lFinalResult += lResult;
+                        lResult=0;
+                    }
+                    else if(str.equalsIgnoreCase("million")) {
+                        lResult *= 1000000;
+                        lFinalResult += lResult;
+                        lResult=0;
+                    }
+                    else if(str.equalsIgnoreCase("billion")) {
+                        lResult *= 1000000000;
+                        lFinalResult += lResult;
+                        lResult=0;
+                    }
+                    else if(str.equalsIgnoreCase("trillion")) {
+                        lResult *= 1000000000000L;
+                        lFinalResult += lResult;
+                        lResult=0;
+                    }
+                }
+
+                lFinalResult += lResult;
+                lResult=0;
+                szFinalResult = Long.toString(lFinalResult);
+                //System.out.println(lFinalResult);
+                //toast out final result
+     //           Toast.makeText(this, "Captured txt2int string is:" + lFinalResult, Toast.LENGTH_SHORT).show();
+                lFinalResult=0;
+            }else{//not valid
+                Toast.makeText(this, "Bottom elseif, not valid.", Toast.LENGTH_SHORT).show();
+                bIsValidInput = true;
+                //return;
+            }
+        }
+    }//end of parseNumbers
+    /********************************* parseWords() *******************************************
  *  this is where we can maniipulate the output to be either a number, or a salmon species.
  *  There are 5 species being counted. The arrays include colloquial names and a variety of
  *  phonemes.
  ******************************************************************************************/
     public void parseWords() {
-        List<String> szlNumbers = Arrays.asList(new String[]{"ONE", "TEN", "ONE HUNDRED", "ONE THOUSAND", "TEN THOUSAND"});//this is going to get bigger...
-        //species
-        List<String> szlChinook = Arrays.asList("CHINOOK", "CHINOOK SALMON", "KING", "KINGS", "KING SALMON", "KING SALMAN");
-        List<String> szlSockeye = Arrays.asList("SOCKEYE", "SOCCER", "SOCKEYE SALMON", "SOCK ICE", "SOCCER ICE", "SOCK I SAID", "SOCCER IS", "OKAY SALMON", "RED SALMON", "READ SALMON", "RED", "REDS");
-        List<String> szlCoho = Arrays.asList("COHO", "COHO SALMON", "COVER SALMON", "SILVER SALMON", "SILVER", "SILVERS", "CO", "KOBO", "GO HOME", "COMO", "COVER", "GO");
-        List<String> szlPink = Arrays.asList("PINK", "A PINK", "PINKS", "PINK SALMON", "HANK SALMON", "EXAMINE", "HUMPY", "HOBBY", "HUMPIES", "HUM BE", "HUM P", "BE", "HUMPTY", "HOBBIES", "HUMVEE", "THE HUMVEES", "POMPEY");
-        List<String> szlChum = Arrays.asList("CHUM", "JOHN", "JUMP", "SHARMA", "CHARM", "COME", "CHARM SALMON", "COME SALMON", "CHUM SALMON", "JUMP SALMON", "TRUMP SALMON", "KETA SALMON", "KETA", "DOG", "DOGS", "DOG SALMON", "GATOR", "GATORS", "CALICO", "A CALICO");
+     //   List<String> szlNumbers = Arrays.asList(new String[]{"ONE", "TEN", "ONE HUNDRED", "ONE THOUSAND", "TEN THOUSAND"});//this is going to get bigger...
+        //species synonyms and variations
+        List<String> szlChinook = Arrays.asList("CHINOOK", "CHINOOK SALMON", "KING", "KINGS", "KING SALMON");
+        List<String> szlSockeye = Arrays.asList("SOCKEYE", "SOCKEYE SALMON", "RED SALMON", "RED", "REDS");
+        List<String> szlCoho = Arrays.asList("COHO", "COHO SALMON", "SILVER SALMON", "SILVER", "SILVERS");
+        List<String> szlPink = Arrays.asList("PINK", "PINK", "PINKS", "PINK SALMON", "HUMPY");
+        List<String> szlChum = Arrays.asList("CHUM", "CHUM SALMON", "KETA SALMON", "KETA", "DOG", "DOGS", "DOG SALMON", "GATOR", "GATORS", "CALICO");
         List<String> szlAtlantic = Arrays.asList("ATLANTIC", "ATLANTICS", "ATLANTIC SALMON");
 
         //Collections.sort(szlSpecies);
@@ -250,12 +416,15 @@ public class salmonTalkerLite extends Activity implements
             szSpecies = "Atlantic";
             populateSpecies();
             return;
-        }
+  /*     }
         if(szlNumbers.contains(szVoskOutput)) {//then this is a number, put in count txt box
-            tvCount.setText(szVoskOutput);
+           tvCount.setText(szVoskOutput);
            return;
-        }else{
-                Toast.makeText(this, "Please repeat clearly. Captured string is:" + szVoskOutput, Toast.LENGTH_SHORT).show();
+      */  }else{
+            szInput=szVoskOutput;
+            parseNumbers();
+            tvCount.setText(szFinalResult);
+               // Toast.makeText(this, "Please repeat clearly. Captured string is:" + szVoskOutput, Toast.LENGTH_SHORT).show();
         }
     }//end parseWords()
 
