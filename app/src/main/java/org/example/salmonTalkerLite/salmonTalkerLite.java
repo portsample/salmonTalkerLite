@@ -68,7 +68,7 @@ public class salmonTalkerLite extends Activity implements
 
     public String szVoskOutput = " ";
 
-    public String szSpecies;
+    public String szSpecies = " ";
 
     ToggleButton tbtnStartStop;
     Button btnReadMe;
@@ -87,7 +87,8 @@ public class salmonTalkerLite extends Activity implements
                     "hundred","thousand","million","billion","trillion"
             );
 
-    String szInput, szFinalResult;//="seven hundred and eighty nine";
+    String szInput = "  ";
+    String szFinalResult = "  ";
 
     //txt2int stuff end...
 
@@ -168,6 +169,10 @@ public class salmonTalkerLite extends Activity implements
     }
 
     private void recognizeMicrophone() {
+       // String szKeywords="[\"sockeye pink coho chum chinook salmon oh zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion\\\",\\\"[unk]\\\"]";
+      String szKeywords = "[\"one\",\"two\",\"three\",\"four\",\"red\",\"[unk]\"]";
+       // List<String> szlKeywords = Arrays.asList("SOCKEYE", "SOCKEYE SALMON", "RED SALMON", "RED", "REDS");
+
         if (speechService != null) {
             setUiState(iSTATE_DONE);
             speechService.stop();
@@ -177,8 +182,14 @@ public class salmonTalkerLite extends Activity implements
             try {
                // Recognizer rec = new Recognizer(model, 16000.0f);
                 //These are the only words passed by the speech engine
-                Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook salmon oh zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion\",\"[unk]\"]");
-                 // Recognizer rec = new Recognizer(model, 16000.f, "[\"one zero zero zero one\", " +
+                 //Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook salmon oh zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion\",\"[unk]\"]");
+                Recognizer rec = new Recognizer(model, 16000, szKeywords);
+                      //both of the below string formats work.
+                //Recognizer rec = new Recognizer(model, 16000, "[\"one two three four red\",\"[unk]\"]");
+                //Recognizer rec = new Recognizer(model, 16000, "[\"one\",\"two\",\"three\",\"four\",\"red\",\"[unk]\"]");
+
+
+                // Recognizer rec = new Recognizer(model, 16000.f, "[\"one zero zero zero one\", " +
                    //     "\"oh zero one two three four five six seven eight nine\", \"[unk]\"]");
 
                 speechService = new SpeechService(rec, 16000.0f);
