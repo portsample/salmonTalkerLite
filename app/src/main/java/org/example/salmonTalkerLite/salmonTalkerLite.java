@@ -14,6 +14,8 @@
 
 package org.example.salmonTalkerLite;
 
+import static android.text.TextUtils.concat;
+
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -170,7 +172,22 @@ public class salmonTalkerLite extends Activity implements
 
     private void recognizeMicrophone() {
        // String szKeywords="[\"sockeye pink coho chum chinook salmon oh zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion\\\",\\\"[unk]\\\"]";
-      String szKeywords = "[\"one\",\"two\",\"three\",\"four\",\"red\",\"[unk]\"]";
+                           //both of the below formats work...
+      //String szKeywords = "[\"one\",\"two\",\"three\",\"four\",\"red\",\"[unk]\"]";
+       // String szKeywords = "[\"one two three four red\",\"[unk]\"]";
+         //String szKeywords = "[\"one two three four red\"]";
+
+        String szLeftQuote = "[\"";
+        String szNumbers = "one two three four";
+        String szColors = " red blue\",";
+        String szPhrases =  "\"delete last count\",\"delete last row\",\"[unk]";
+        String szRightQuote = "\"]";
+
+        String szFirst =szLeftQuote.concat(szNumbers);
+        String szSecond=szFirst.concat(szColors);
+        String szThird=szSecond.concat(szPhrases);
+        String szKeywords=szThird.concat(szRightQuote);
+
        // List<String> szlKeywords = Arrays.asList("SOCKEYE", "SOCKEYE SALMON", "RED SALMON", "RED", "REDS");
 
         if (speechService != null) {
@@ -184,7 +201,11 @@ public class salmonTalkerLite extends Activity implements
                 //These are the only words passed by the speech engine
                  //Recognizer rec = new Recognizer(model, 16000, "[\"sockeye pink coho chum chinook salmon oh zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million billion trillion\",\"[unk]\"]");
                 Recognizer rec = new Recognizer(model, 16000, szKeywords);
-                      //both of the below string formats work.
+              //  Toast.makeText(this, "Concat String:" + szKeywords1, Toast.LENGTH_LONG).show();
+              //  Toast.makeText(this, "Concat String:" + szKeywords1, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, "String:" + szKeywords, Toast.LENGTH_LONG).show();
+               //Toast.makeText(this, "String:" + szKeywords, Toast.LENGTH_LONG).show();
+                      //both of the below string formats work as well...
                 //Recognizer rec = new Recognizer(model, 16000, "[\"one two three four red\",\"[unk]\"]");
                 //Recognizer rec = new Recognizer(model, 16000, "[\"one\",\"two\",\"three\",\"four\",\"red\",\"[unk]\"]");
 
