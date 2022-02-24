@@ -5,6 +5,7 @@
     <string name="szstartxml">START</string>
     <string name="szstopxml">STOP</string>
     <string name="szreadmexml">readme</string>
+    <string name="szquitxml">Quit</string>
     <string name="preparing">Preparing the recognizer\n</string>
     <string name="ready">Inactive, (press START)</string>
     <string name="failed">Failed to init recognizer %s\n</string>

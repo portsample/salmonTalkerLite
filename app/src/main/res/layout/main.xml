@@ -15,10 +15,6 @@
         android:textSize="16pt"
         android:textStyle="bold"
         android:textColor="@color/white" />
-
-
-
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -85,5 +81,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/szreadmexml"
+        android:textSize="8pt" />
+
+    <Button
+        android:id="@+id/btnquitxml"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/szquitxml"
         android:textSize="8pt" />
 </LinearLayout>
